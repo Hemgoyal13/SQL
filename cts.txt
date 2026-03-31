@@ -1,0 +1,88 @@
+#CTEs common table expression 
+
+with CTE_example AS
+(
+select gender,avg(salary),max(salary),count(salay)
+from employee_demographics dem 
+join employee_salary sal
+	on dem.employee_id = sal.employee_id
+group by gender
+)
+select *
+from cte_example
+;
+
+#we can write it with the subquery
+with CTE_example AS
+(
+select gender,avg(salary) avg_sal,
+max(salary) max_sal,
+min(salary) min_sal,
+count(salay) count_sal,
+from employee_demographics dem 
+join employee_salary sal
+	on dem.employee_id = sal.employee_id
+group by gender
+)
+select *
+from cte_example
+;
+
+# in subquery format
+
+select avg(ave_sal)
+from( gender,avg(salary),max(salary),count(salay)
+from employee_demographics dem 
+join employee_salary sal
+	on dem.employee_id = sal.employee_id
+group by gender
+)
+example_subquery
+;
+
+#we can call a cte just after creating it 
+
+#the shown case will given an error 
+select avg(avg_sal)
+from cte_example
+;
+
+with cte_example as
+(
+select employee_id,gender ,birth_date
+from employee_demographics
+where birth_date > '1985-01-01'
+),
+CTE_Eexample2 as
+(
+select *
+from employee_salary
+where salary > 50000
+)
+select *
+from cte_example
+join cte_example2
+	on cte_example.employee_id = cte_example.employee_id
+;
+
+
+with CTE_example(Gender,AVG_Sal,MAX_Sal,MIN_Sal,COUNT_Sal) AS
+(
+select gender,avg(salary),max(salary),count(salay)
+from employee_demographics dem 
+join employee_salary sal
+	on dem.employee_id = sal.employee_id
+group by gender
+)
+select *
+from cte_example
+;
+
+
+
+
+
+
+
+
+
